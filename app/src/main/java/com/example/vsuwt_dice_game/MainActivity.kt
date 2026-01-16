@@ -1,32 +1,46 @@
 package com.example.vsuwt_dice_game
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
     private val rollHistory = mutableListOf<String>()
     private var totalRolls = 0
-    private var maxHistoryItems = 10 // Ограничиваем историю 10 записями
+    private var maxHistoryItems = 10
+
+    // Объявляем переменные как lateinit
+    private lateinit var buttonRoll: Button
+    private lateinit var editTextDiceCount: EditText
+    private lateinit var textViewResult: TextView
+    private lateinit var textViewSum: TextView
+    private lateinit var textViewHistory: TextView
+    private lateinit var diceContainer: LinearLayout
+    private lateinit var buttonAuthors: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val buttonRoll = findViewById<Button>(R.id.buttonRoll)
-        val editTextDiceCount = findViewById<EditText>(R.id.editTextDiceCount)
-        val textViewResult = findViewById<TextView>(R.id.textViewResult)
-        val textViewSum = findViewById<TextView>(R.id.textViewSum)
-        val textViewHistory = findViewById<TextView>(R.id.textViewHistory)
-        val diceContainer = findViewById<LinearLayout>(R.id.diceContainer)
+        // Инициализируем все view элементы
+        initViews()
 
+        // Обработка нажатия на кнопку "Авторы"
+        buttonAuthors.setOnClickListener {
+            // Открываем активность с авторами
+            val intent = Intent(this, AuthorsActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Обработка нажатия на кнопку "Бросить кубики"
         buttonRoll.setOnClickListener {
             try {
                 // Получаем количество кубиков
                 val diceCount = try {
-                    editTextDiceCount.text.toString().toInt().coerceIn(1, 6) // Ограничиваем 6 кубиками
+                    editTextDiceCount.text.toString().toInt().coerceIn(1, 6)
                 } catch (e: Exception) {
                     2
                 }
@@ -38,10 +52,10 @@ class MainActivity : AppCompatActivity() {
                 val results = rollDice(diceCount)
 
                 // Обновляем интерфейс
-                updateUI(results, diceContainer, textViewResult, textViewSum)
+                updateUI(results)
 
                 // Обновляем историю
-                updateHistory(results, textViewHistory)
+                updateHistory(results)
             } catch (e: Exception) {
                 // Обработка ошибок чтобы приложение не вылетало
                 textViewResult.text = "Ошибка: ${e.message}"
@@ -49,20 +63,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initViews() {
+        buttonRoll = findViewById(R.id.buttonRoll)
+        editTextDiceCount = findViewById(R.id.editTextDiceCount)
+        textViewResult = findViewById(R.id.textViewResult)
+        textViewSum = findViewById(R.id.textViewSum)
+        textViewHistory = findViewById(R.id.textViewHistory)
+        diceContainer = findViewById(R.id.diceContainer)
+        buttonAuthors = findViewById(R.id.buttonAuthors)
+    }
+
     private fun rollDice(count: Int): List<Int> {
         return List(count) { Random.nextInt(1, 7) }
     }
 
-    private fun updateUI(
-        results: List<Int>,
-        diceContainer: LinearLayout,
-        textViewResult: TextView,
-        textViewSum: TextView
-    ) {
-        // Очищаем контейнер ПРАВИЛЬНЫМ способом
+    private fun updateUI(results: List<Int>) {
+        // Очищаем контейнер
         diceContainer.removeAllViews()
 
-        // Создаем view для каждого кубика с оптимизацией
+        // Создаем view для каждого кубика
         for (result in results) {
             val diceView = TextView(this).apply {
                 text = "🎲$result"
@@ -93,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         textViewSum.text = "Сумма: $sum"
     }
 
-    private fun updateHistory(results: List<Int>, textViewHistory: TextView) {
+    private fun updateHistory(results: List<Int>) {
         totalRolls++
 
         // Создаем текст результата
@@ -106,9 +125,10 @@ class MainActivity : AppCompatActivity() {
         // Добавляем в начало и ограничиваем размер
         rollHistory.add(0, resultText)
         if (rollHistory.size > maxHistoryItems) {
-            rollHistory.removeAt(rollHistory.size - 1) // Удаляем последний элемент
+            rollHistory.removeAt(rollHistory.size - 1)
         }
-// Обновляем отображение истории
+
+        // Обновляем отображение истории
         val historyText = if (rollHistory.isNotEmpty()) {
             "История (последние $maxHistoryItems бросков):\n${rollHistory.joinToString("\n")}"
         } else {
@@ -117,10 +137,8 @@ class MainActivity : AppCompatActivity() {
         textViewHistory.text = historyText
     }
 
-    // Добавляем очистку ресурсов при уничтожении активности
     override fun onDestroy() {
         super.onDestroy()
-        // Очищаем историю чтобы освободить память
         rollHistory.clear()
     }
 }

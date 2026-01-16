@@ -88,6 +88,18 @@
         android:text=""
         android:textSize="12sp"
         android:gravity="center"
+        android:layout_marginBottom="15dp"
         android:maxLines="6" />
+
+
+    <Button
+        android:id="@+id/buttonAuthors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Авторы проекта"
+        android:textSize="14sp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#6200EE"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>
