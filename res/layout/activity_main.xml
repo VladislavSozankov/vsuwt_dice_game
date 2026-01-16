@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Заголовок -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🎲 Игральные Кубики 🎲"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Отображение результата броска -->
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Нажмите 'Бросить кубики'"
+        android:textSize="16sp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center" />
+
+    <!-- Поле для ввода количества кубиков -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Кубиков:"
+            android:textSize="14sp"
+            android:layout_marginEnd="10dp" />
+
+        <EditText
+            android:id="@+id/editTextDiceCount"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:inputType="number"
+            android:maxLines="1"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Кнопка броска -->
+    <Button
+        android:id="@+id/buttonRoll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Бросить кубики"
+        android:textSize="14sp"
+        android:layout_marginBottom="15dp" />
+
+    <!-- Область для отображения кубиков -->
+    <LinearLayout
+        android:id="@+id/diceContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="15dp" />
+
+    <!-- Отображение суммы -->
+    <TextView
+        android:id="@+id/textViewSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#FF5722"
+        android:layout_marginBottom="15dp" />
+
+    <!-- История бросков -->
+    <TextView
+        android:id="@+id/textViewHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="12sp"
+        android:gravity="center"
+        android:layout_marginBottom="15dp"
+        android:maxLines="6" />
+
+
+    <Button
+        android:id="@+id/buttonAuthors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Авторы проекта"
+        android:textSize="14sp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#6200EE"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>
